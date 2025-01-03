@@ -1,12 +1,15 @@
 # Holo Project
 
----
-
 ### Lưu ý:
 
 > **Đây là phiên bản phát triển (Dev Version).**  
 > Holo Project hiện chỉ có tác dụng trưng bày sản phẩm và chưa hoàn thiện.  
 > Vui lòng không đánh giá sản phẩm khi nó chưa hoàn thiện.
+
+### Translations:
+
+-   [English](https://github.com/MineHighVN/holo-dev/blob/main/README.md)
+-   [Tiếng Việt](https://github.com/MineHighVN/holo-dev/blob/main/README.vi.md)
 
 ### Holo Project là gì?
 

@@ -1,10 +1,15 @@
-**# Holo Project**
+# Holo Project
 
 **A Note on Development**
 
 > This is a **development version**.
 > Holo Project is currently designed for product demonstration and is incomplete.
 > Please refrain from evaluating the product while it is under development.
+
+### Translations:
+
+-   [English](https://github.com/MineHighVN/holo-dev/blob/main/README.md)
+-   [Tiếng Việt](https://github.com/MineHighVN/holo-dev/blob/main/README.vi.md)
 
 **What is Holo Project?**
 
