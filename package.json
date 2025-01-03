@@ -1,0 +1,20 @@
+{
+    "name": "holo",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "workspaces": [
+        "packages/HoloDev",
+        "packages/HoloCore"
+    ],
+    "scripts": {
+        "start": "node --force-node-api-uncaught-exceptions-policy=true src/index.js",
+        "dev": "nodemon --force-node-api-uncaught-exceptions-policy=true src/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    }
+}

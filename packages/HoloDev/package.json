@@ -1,0 +1,25 @@
+{
+    "name": "@holo/dev",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "dev": "nodemon index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MineHighVN/holo-dev.git"
+    },
+    "author": "MineHighVN",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/MineHighVN/holo-dev/issues"
+    },
+    "homepage": "https://github.com/MineHighVN/holo-dev#readme",
+    "description": "",
+    "dependencies": {
+        "@holo/core": "^1.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    }
+}
