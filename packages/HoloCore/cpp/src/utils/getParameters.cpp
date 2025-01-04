@@ -22,4 +22,22 @@ namespace utils {
 
         return title;
     }
+
+    uint64_t getUint64 (napi_env env, napi_value value) {
+        int64_t num;
+        napi_status status = napi_get_value_int64(env, value, &num); 
+        if (status != napi_ok) {
+            napi_throw_type_error(env, nullptr, "Failed to get int64 value");
+            return -1;
+        }
+
+        if (num < 0) {
+            napi_throw_type_error(env, nullptr, "Value cannot be negative for uint64_t");
+            return -1;
+        }
+
+        uint64_t uintNum = static_cast<uint64_t>(num); 
+
+        return uintNum;
+    }
 }

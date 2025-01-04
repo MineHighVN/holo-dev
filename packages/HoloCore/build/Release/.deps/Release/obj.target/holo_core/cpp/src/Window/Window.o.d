@@ -6,6 +6,7 @@ Release/obj.target/holo_core/cpp/src/Window/Window.o: \
  /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imconfig.h \
  /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui_impl_glfw.h \
  /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui_impl_opengl3.h \
+ ../cpp/src/Window/../HoloEngine/Body.h \
  ../cpp/src/Window/../HoloEngine/Node.h \
  ../cpp/src/Window/../HoloEngine/../StyleSheet/StyleSheet.h \
  ../cpp/src/Window/../HPC/HPC.h \
@@ -20,6 +21,7 @@ Release/obj.target/holo_core/cpp/src/Window/Window.o: \
 /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imconfig.h:
 /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui_impl_glfw.h:
 /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui_impl_opengl3.h:
+../cpp/src/Window/../HoloEngine/Body.h:
 ../cpp/src/Window/../HoloEngine/Node.h:
 ../cpp/src/Window/../HoloEngine/../StyleSheet/StyleSheet.h:
 ../cpp/src/Window/../HPC/HPC.h:

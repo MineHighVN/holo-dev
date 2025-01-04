@@ -13,6 +13,7 @@ const init = require("./src/init");
  *
  * @property {Object} document - Control everything on view - C++
  * @property {(NodeID: number, children: (string | number)) => void} document.setChildren - set children for a node
+ * @property {(NodeID: number, children: (string | number)) => void} document.appendChildren - append a node child to another node
  *
  */
 

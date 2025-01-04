@@ -3,6 +3,8 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
+#include "../HoloEngine/Body.h"
+
 #include "../HoloEngine/Node.h"
 
 #include "../HPC/HPC.h"
@@ -71,16 +73,8 @@ void Window::Render() {
 
         this->draw_list = ImGui::GetForegroundDrawList();
 
-        // ImGui::Begin("Hello, world!");
-        // ImGui::Text("This is a simple ImGui window with GLFW and OpenGL.");
-        // if (ImGui::Button("Quit")) {
-        //     glfwSetWindowShouldClose(this->window, GL_TRUE);
-        // }
-        // ImGui::End();
-
-            // std::cout << NodeMap.size() << "\n";
-        for (auto& pair : NodeMap) {
-            pair.second->render();
+        if (body != nullptr) {
+            body->render();
         }
 
         ImGui::Render();

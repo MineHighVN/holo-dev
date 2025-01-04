@@ -3,7 +3,7 @@ const { holo } = require("@holo/core");
 /**
  * @typedef {Object} NodeAttribute
  * @property {string} tagName
- * @property {(Array<Node|string> | Node | string)} children
+ * @property {(Array<Node|string> | Node | string | undefined)} children
  * @property {Array} styles
  * @property {{current: any}} ref
  * @property {string} key
@@ -31,13 +31,13 @@ class Node {
 
         this.key = attr.key || "";
 
-        if (Array.isArray(this._children))
+        if (Array.isArray(attr.children))
             for (let i = 0; i < attr.children.length; i++) {
                 const node = attr.children[i];
                 this.appendNode(node);
             }
         else {
-            this._children = attr.children;
+            if (attr.children) this._children = attr.children;
 
             if (typeof attr.children === "string") {
                 holo.document.setChildren(this.NodeID, attr.children);
@@ -64,8 +64,13 @@ class Node {
      * @param {Array<Node>|string} newChildren
      */
 
+    /**
+     *
+     * @param {Node} node
+     */
     appendNode(node) {
         this._children.push(node);
+        holo.document.appendChildren(this.NodeID, node.NodeID);
     }
 }
 

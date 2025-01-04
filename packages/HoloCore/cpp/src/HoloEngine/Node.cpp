@@ -14,6 +14,16 @@ Node::~Node() {
     std::cout << "CleanUP ID >>> " << this->NodeID << "\n";
 }
 
+void Node::renderChildren() {
+    if (std::holds_alternative<holo_nodes>(children)) {
+        holo_nodes& children = std::get<holo_nodes>(this->children);
+
+        for (const auto& child : children) {
+            child->render();
+        }
+    }
+}
+
 void Node::DrawLine(float x1, float y1, float x2, float y2, ImU32 col, float thickness) {
     window->draw_list->AddLine(ImVec2{ x1, y1 }, ImVec2{ x2, y2 }, col, thickness);
 }

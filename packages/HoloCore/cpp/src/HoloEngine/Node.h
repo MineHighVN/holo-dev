@@ -40,11 +40,11 @@ public:
     ~Node();
     StyleSheet style;
     virtual void render() = 0;
-    Node* parent = nullptr;
+    void renderChildren();
+    std::shared_ptr<Node> parent = nullptr;
     unsigned int getNodeID() const;
     std::string getNodeName ();
     holo_children children = nullptr;
 };
 
-extern HOLO_Attributes body;
 extern std::map<unsigned int, std::shared_ptr<Node>> NodeMap;

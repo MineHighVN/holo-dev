@@ -1,6 +1,13 @@
 const { init, holo } = require("@holo/core");
+const createElement = require("./createElement");
 
 const startEntry = async (func) => {
+    global.document = {};
+
+    const body = createElement("body");
+
+    document.body = body;
+
     try {
         await init();
         console.log("Initialization completed.");
@@ -15,7 +22,7 @@ const startEntry = async (func) => {
         process.exit(1);
     }
     holo.window.init();
-    func();
+    document.body.appendNode(func());
 };
 
 module.exports = startEntry;
