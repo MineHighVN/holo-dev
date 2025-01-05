@@ -8,6 +8,7 @@
                 "<!@(ls -1 cpp/src/utils/*.cpp)",
                 "<!@(ls -1 cpp/src/Window/*.cpp)",
                 "<!@(ls -1 cpp/src/HoloEngine/*.cpp)",
+                "<!@(ls -1 cpp/src/exports/*.cpp)",
                 "<!@(ls -1 cpp/dependencies/include/imgui/*.cpp)",
             ],
             "include_dirs": [
