@@ -7,7 +7,7 @@ namespace utils {
         size_t title_len;
         napi_status status = napi_get_value_string_utf8(env, value, NULL, 0, &title_len);
         if (status != napi_ok) {
-            napi_throw_error(env, NULL, "Invalid title parameter");
+            napi_throw_error(env, NULL, "invalid title parameter");
             return NULL;
         }
 
@@ -16,7 +16,7 @@ namespace utils {
         status = napi_get_value_string_utf8(env, value, title, title_len + 1, &title_len);
         if (status != napi_ok) {
             free(title);
-            napi_throw_error(env, NULL, "Failed to get string value");
+            napi_throw_error(env, NULL, "failed to get string value");
             return NULL;
         }
 
@@ -27,12 +27,12 @@ namespace utils {
         int64_t num;
         napi_status status = napi_get_value_int64(env, value, &num); 
         if (status != napi_ok) {
-            napi_throw_type_error(env, nullptr, "Failed to get int64 value");
+            napi_throw_type_error(env, nullptr, "failed to get int64 value");
             return -1;
         }
 
         if (num < 0) {
-            napi_throw_type_error(env, nullptr, "Value cannot be negative for uint64_t");
+            napi_throw_type_error(env, nullptr, "value cannot be negative for uint64_t");
             return -1;
         }
 

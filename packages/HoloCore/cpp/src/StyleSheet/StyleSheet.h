@@ -1,8 +1,10 @@
 #pragma once
 
 class StyleSheet {
-    int marginTop = 0;
-    int marginBottom = 0;
-    int marginLeft = 0;
-    int marginRight = 0;
+    float marginTop = 0;
+    float marginBottom = 0;
+    float marginLeft = 0;
+    float marginRight = 0;
+    float maxWidth = 0;
+    float maxHeight = 0;
 };
