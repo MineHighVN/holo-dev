@@ -1,7 +1,7 @@
 #include "Body.h"
 
 void Body::render() {
-    this->renderChildren();
+    Node::render();
 }
 
 std::shared_ptr<Body> body;

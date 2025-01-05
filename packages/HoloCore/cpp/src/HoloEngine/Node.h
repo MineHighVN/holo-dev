@@ -10,11 +10,14 @@
 #include <variant>
 
 struct HOLO_Attributes {
-    unsigned short clientWidth = 0;
-    unsigned short clientHeight = 0;
+    unsigned short height = 0;
+    unsigned short width = 0;
 
     unsigned int scrollX = 0;
     unsigned int scrollY = 0;
+
+    float maxWidth = 0;
+    float maxHeight = 0;
 
     float top = 0.0f;
     float bottom = 0.0f;
@@ -24,27 +27,33 @@ struct HOLO_Attributes {
 
 class Node;
 
-using holo_nodes = std::vector<std::shared_ptr<Node>>;
-using holo_children = std::variant<holo_nodes, std::string, std::nullptr_t>;
+using holo_node = std::shared_ptr<Node>;
+using holo_child = std::variant<std::string, holo_node>;
+using holo_nodes = std::vector<holo_child>;
 
 class Node : public HOLO_Attributes {
 private:
-    static std::atomic<unsigned int> nextID;
+    static std::atomic<uint64_t> nextID;
     std::string nodeName;
+    holo_node selfSharedAddress = nullptr;
 protected:
     void DrawLine(float x1, float y1, float x2, float y2, ImU32 col, float thickness = 1.0f);
     void DrawText(std::string text, float x, float y, ImU32 col);
     unsigned int NodeID;
+    holo_nodes children;
 public:
     Node(std::string nodeName);
     ~Node();
     StyleSheet style;
-    virtual void render() = 0;
-    void renderChildren();
+    virtual void render();
     std::shared_ptr<Node> parent = nullptr;
     unsigned int getNodeID() const;
     std::string getNodeName ();
-    holo_children children = nullptr;
+
+    void appendChildren(holo_child children);
+    void setChildren(holo_nodes children);
+    void setSelfSharedPtr(holo_node node);
+    static std::shared_ptr<Node> getNode(uint64_t nodeId);
 };
 
-extern std::map<unsigned int, std::shared_ptr<Node>> NodeMap;
+extern std::map<uint64_t, std::shared_ptr<Node>> NodeMap;
