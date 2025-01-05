@@ -17,6 +17,9 @@ const elementMap = {
      * @returns {BodyElement}
      */
     body: (attr) => new BodyElement(attr),
+    Fragment: (attr) => {
+        return attr.children || [];
+    },
 };
 
 /**
@@ -25,11 +28,17 @@ const elementMap = {
  * @param {NodeAttribute} attributes
  */
 const createElement = (name, attributes) => {
-    const func = elementMap[name];
+    if (typeof name === "function") {
+        const func = name;
 
-    if (func) return func(attributes);
-    else {
-        throw Error(`tag not exists`);
+        return func(attributes || {});
+    } else {
+        const func = elementMap[name];
+
+        if (func) return func(attributes);
+        else {
+            throw Error(`tag not exists`);
+        }
     }
 };
 

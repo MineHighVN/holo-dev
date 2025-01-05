@@ -22,7 +22,7 @@ const startEntry = async (func) => {
         process.exit(1);
     }
     holo.window.init();
-    document.body.appendNode(func());
+    document.body.appendChildren(func());
 };
 
 module.exports = startEntry;
