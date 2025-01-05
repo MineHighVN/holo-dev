@@ -4,26 +4,11 @@ Release/obj.target/holo_core/cpp/src/main.o: ../cpp/src/main.cpp \
  /home/minehighvn/.cache/node-gyp/23.5.0/include/node/js_native_api.h \
  /home/minehighvn/.cache/node-gyp/23.5.0/include/node/js_native_api_types.h \
  /home/minehighvn/.cache/node-gyp/23.5.0/include/node/node_api_types.h \
- ../cpp/src/Window/Window.h \
- /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h \
- /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui.h \
- /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imconfig.h \
- ../cpp/src/utils/getParameters.h ../cpp/src/HPC/HPC.h \
- ../cpp/src/HoloEngine/NodeManager.h ../cpp/src/HoloEngine/Node.h \
- ../cpp/src/HoloEngine/../StyleSheet/StyleSheet.h \
- ../cpp/src/utils/getNode.h
+ ../cpp/src/exports/exports.h ../cpp/src/utils/split.h
 ../cpp/src/main.cpp:
 /home/minehighvn/.cache/node-gyp/23.5.0/include/node/node_api.h:
 /home/minehighvn/.cache/node-gyp/23.5.0/include/node/js_native_api.h:
 /home/minehighvn/.cache/node-gyp/23.5.0/include/node/js_native_api_types.h:
 /home/minehighvn/.cache/node-gyp/23.5.0/include/node/node_api_types.h:
-../cpp/src/Window/Window.h:
-/home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h:
-/home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui.h:
-/home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imconfig.h:
-../cpp/src/utils/getParameters.h:
-../cpp/src/HPC/HPC.h:
-../cpp/src/HoloEngine/NodeManager.h:
-../cpp/src/HoloEngine/Node.h:
-../cpp/src/HoloEngine/../StyleSheet/StyleSheet.h:
-../cpp/src/utils/getNode.h:
+../cpp/src/exports/exports.h:
+../cpp/src/utils/split.h:

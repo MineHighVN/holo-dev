@@ -99,14 +99,16 @@ INCS_Release := \
 OBJS := \
 	$(obj).target/$(TARGET)/cpp/src/main.o \
 	$(obj).target/$(TARGET)/cpp/src/HPC/HPC.o \
-	$(obj).target/$(TARGET)/cpp/src/utils/getNode.o \
 	$(obj).target/$(TARGET)/cpp/src/utils/getParameters.o \
+	$(obj).target/$(TARGET)/cpp/src/utils/split.o \
+	$(obj).target/$(TARGET)/cpp/src/utils/Translator.o \
 	$(obj).target/$(TARGET)/cpp/src/Window/Window.o \
 	$(obj).target/$(TARGET)/cpp/src/HoloEngine/Body.o \
 	$(obj).target/$(TARGET)/cpp/src/HoloEngine/Div.o \
 	$(obj).target/$(TARGET)/cpp/src/HoloEngine/Node.o \
 	$(obj).target/$(TARGET)/cpp/src/HoloEngine/NodeManager.o \
 	$(obj).target/$(TARGET)/cpp/src/HoloEngine/Text.o \
+	$(obj).target/$(TARGET)/cpp/src/exports/exports.o \
 	$(obj).target/$(TARGET)/cpp/dependencies/include/imgui/imgui.o \
 	$(obj).target/$(TARGET)/cpp/dependencies/include/imgui/imgui_demo.o \
 	$(obj).target/$(TARGET)/cpp/dependencies/include/imgui/imgui_draw.o \

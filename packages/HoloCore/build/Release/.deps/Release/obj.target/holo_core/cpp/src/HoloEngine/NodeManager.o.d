@@ -7,7 +7,8 @@ Release/obj.target/holo_core/cpp/src/HoloEngine/NodeManager.o: \
  ../cpp/src/HoloEngine/../StyleSheet/StyleSheet.h \
  ../cpp/src/HoloEngine/../Window/Window.h \
  /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h \
- ../cpp/src/HoloEngine/Text.h ../cpp/src/HoloEngine/Body.h
+ ../cpp/src/HoloEngine/Text.h ../cpp/src/HoloEngine/Body.h \
+ ../cpp/src/HoloEngine/Div.h
 ../cpp/src/HoloEngine/NodeManager.cpp:
 ../cpp/src/HoloEngine/NodeManager.h:
 ../cpp/src/HoloEngine/Node.h:
@@ -18,3 +19,4 @@ Release/obj.target/holo_core/cpp/src/HoloEngine/NodeManager.o: \
 /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h:
 ../cpp/src/HoloEngine/Text.h:
 ../cpp/src/HoloEngine/Body.h:
+../cpp/src/HoloEngine/Div.h:

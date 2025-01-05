@@ -5,7 +5,8 @@ Release/obj.target/holo_core/cpp/src/HoloEngine/Node.o: \
  /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imconfig.h \
  ../cpp/src/HoloEngine/../StyleSheet/StyleSheet.h \
  ../cpp/src/HoloEngine/../Window/Window.h \
- /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h
+ /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h \
+ ../cpp/src/HoloEngine/../utils/split.h
 ../cpp/src/HoloEngine/Node.cpp:
 ../cpp/src/HoloEngine/Node.h:
 /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/imgui/imgui.h:
@@ -13,3 +14,4 @@ Release/obj.target/holo_core/cpp/src/HoloEngine/Node.o: \
 ../cpp/src/HoloEngine/../StyleSheet/StyleSheet.h:
 ../cpp/src/HoloEngine/../Window/Window.h:
 /home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/cpp/dependencies/include/GLFW/glfw3.h:
+../cpp/src/HoloEngine/../utils/split.h:
