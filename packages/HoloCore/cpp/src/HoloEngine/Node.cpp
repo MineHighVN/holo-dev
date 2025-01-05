@@ -20,22 +20,25 @@ void Node::render() {
     this->height = 0;
     this->width = 0;
 
-    // if (this->parent != nullptr) {
-    //     this->parent->height = 0;
-    //     this->parent->width = 0;
-    // }
+    if (this->parent == nullptr) {
+        this->top = 0;
+        this->left = 0;
+        
+        this->drawPosX = this->left;
+        this->drawPosY = this->top;
+    } else {
+        this->drawPosX = this->left;
+        this->drawPosY = this->top;
+    }
+
+    bool newLine = true;
+
+    const float initialDrawX = this->drawPosX;
+    const float initialDrawY = this->drawPosY;
 
     for (const auto& child_cp : this->children) {
         if (std::holds_alternative<std::string>(child_cp)) {
             std::string child = std::get<std::string>(child_cp);
-            int top = 0;
-            int left = 0;
-
-            const float initialDrawX = 10;
-            const float initialDrawY = this->parent != nullptr ? this->parent->height : 0;
-
-            float drawX = initialDrawX;
-            float drawY = initialDrawY;
 
             float width = 0;
             float height = 0;
@@ -45,16 +48,15 @@ void Node::render() {
             std::vector<std::string> child_split = utils::split(child, ' ');
 
             float temp_width = 0;
-            bool newLine = true;
             bool initial = true;
 
             for (std::string text : child_split) {
                 if (newLine) {
-                    drawX = initialDrawX;
+                    drawPosX = initialDrawX;
                     float addHeight = space_size.y;
                     height += addHeight;
                     if (!initial)
-                        drawY += addHeight;
+                        drawPosY += addHeight;
                     else 
                         initial = false;
                     newLine = false;
@@ -63,7 +65,7 @@ void Node::render() {
 
                 ImVec2 text_size = ImGui::CalcTextSize(text.c_str());
 
-                this->DrawText(text, drawX, drawY, IM_COL32(0, 0, 0, 255));
+                this->DrawText(text, drawPosX, drawPosY);
 
                 if (this->maxWidth != 0 && temp_width + text_size.x > this->maxWidth) {
                     width = std::max(width, temp_width);
@@ -71,18 +73,21 @@ void Node::render() {
                 } else {
                     float addWidth = text_size.x + space_size.x;
                     temp_width += addWidth;
-                    drawX += addWidth;
+                    drawPosX += addWidth;
                 }
             }
 
             if (this->parent != nullptr) {
-                this->height = height;
-                this->parent->height += height;
+                this->height += height;
                 // std::cout << this->height << " " << this->parent->height << "\n";
             }
         } else {
             std::shared_ptr<Node> child = std::get<std::shared_ptr<Node>>(child_cp);
+            child->top = initialDrawY + this->height;
+            child->left = this->left;
             child->render();
+            this->height += child->height;
+            this->width = std::max(this->width, child->width);
         }
     }
 }
@@ -91,8 +96,8 @@ void Node::DrawLine(float x1, float y1, float x2, float y2, ImU32 col, float thi
     window->draw_list->AddLine(ImVec2{ x1, y1 }, ImVec2{ x2, y2 }, col, thickness);
 }
 
-void Node::DrawText(std::string text, float x1, float x2, ImU32 col) {
-    window->draw_list->AddText(ImVec2{x1, x2}, col, text.c_str());
+void Node::DrawText(std::string text, float x1, float x2) {
+    window->draw_list->AddText(ImVec2{x1, x2}, IM_COL32(0, 0, 0, 255), text.c_str());
 }
 
 unsigned int Node::getNodeID () const {

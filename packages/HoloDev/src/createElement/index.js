@@ -17,7 +17,7 @@ const elementMap = {
      * @returns {BodyElement}
      */
     body: (attr) => new BodyElement(attr),
-    Fragment: (attr) => {
+    fragment: (attr) => {
         return attr.children || [];
     },
 };

@@ -1,13 +1,16 @@
-const { _holo, holo } = require("@holo/dev");
+const { _holo, holo, css } = require("@holo/dev");
+const path = require("path");
+
+const styles = css.loadAndParse(path.join(__dirname, "./main.css"));
 
 const HelloWorld = ({ children }) => {
     return _holo("p", {
-        children: `Hello world from ${children}`,
+        children: ["Hello world from ", children],
     });
 };
 
 const TestComponent = () => {
-    return _holo("Fragment", {
+    return _holo("fragment", {
         children: [
             _holo("p", {
                 children: `Hello world from @holo/dev`,

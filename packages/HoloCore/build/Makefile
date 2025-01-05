@@ -339,7 +339,7 @@ endif
 
 quiet_cmd_regen_makefile = ACTION Regenerating $@
 cmd_regen_makefile = cd $(srcdir); /usr/lib/node_modules/node-gyp/gyp/gyp_main.py -fmake --ignore-environment "-Dlibrary=shared_library" "-Dvisibility=default" "-Dnode_root_dir=/home/minehighvn/.cache/node-gyp/23.5.0" "-Dnode_gyp_dir=/usr/lib/node_modules/node-gyp" "-Dnode_lib_file=/home/minehighvn/.cache/node-gyp/23.5.0/<(target_arch)/node.lib" "-Dmodule_root_dir=/home/minehighvn/Documents/Workspace/Holo/packages/HoloCore" "-Dnode_engine=v8" "--depth=." "-Goutput_dir=." "--generator-output=build" -I/home/minehighvn/Documents/Workspace/Holo/packages/HoloCore/build/config.gypi -I/usr/lib/node_modules/node-gyp/addon.gypi -I/home/minehighvn/.cache/node-gyp/23.5.0/include/node/common.gypi "--toplevel-dir=." binding.gyp
-Makefile: $(srcdir)/../../../../../../../usr/lib/node_modules/node-gyp/addon.gypi $(srcdir)/build/config.gypi $(srcdir)/binding.gyp $(srcdir)/../../../../../.cache/node-gyp/23.5.0/include/node/common.gypi
+Makefile: $(srcdir)/binding.gyp $(srcdir)/build/config.gypi $(srcdir)/../../../../../.cache/node-gyp/23.5.0/include/node/common.gypi $(srcdir)/../../../../../../../usr/lib/node_modules/node-gyp/addon.gypi
 	$(call do_cmd,regen_makefile)
 
 # "all" is a concatenation of the "all" targets from all the included

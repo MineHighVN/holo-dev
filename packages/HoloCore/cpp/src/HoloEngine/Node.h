@@ -20,9 +20,7 @@ struct HOLO_Attributes {
     float maxHeight = 0;
 
     float top = 0.0f;
-    float bottom = 0.0f;
     float left = 0.0f;
-    float right = 0.0f;
 };
 
 class Node;
@@ -38,9 +36,11 @@ private:
     holo_node selfSharedAddress = nullptr;
 protected:
     void DrawLine(float x1, float y1, float x2, float y2, ImU32 col, float thickness = 1.0f);
-    void DrawText(std::string text, float x, float y, ImU32 col);
+    void DrawText(std::string text, float x, float y);
     unsigned int NodeID;
     holo_nodes children;
+    float drawPosX = 0;
+    float drawPosY = 0;
 public:
     Node(std::string nodeName);
     ~Node();
