@@ -3,6 +3,7 @@
 #include <iostream>
 #include <memory>
 #include <stdexcept>
+#include <string>
 #include "../HoloEngine/Node.h"
 #include <node_api.h>
 

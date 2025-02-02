@@ -37,7 +37,7 @@ bool Window::Init() {
     }
 
     glfwMakeContextCurrent(this->window);
-    glfwSwapInterval(1);
+    // glfwSwapInterval(1);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -60,13 +60,30 @@ bool Window::Init() {
     return true;
 }
 
+#include <chrono>
+#include <thread>
+
 void Window::Render() {
+    const float targetFrameTime = 1.0f / 30.0f;
+
+    auto previousTime = std::chrono::high_resolution_clock::now();
+
     while (!glfwWindowShouldClose(this->window)) {
+        auto currentTime = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<float> deltaTime = currentTime - previousTime;
+        previousTime = currentTime;
+
         glfwPollEvents();
 
+        if (deltaTime.count() < targetFrameTime) {
+            std::this_thread::sleep_for(std::chrono::duration<float>(targetFrameTime - deltaTime.count()));
+        }
+
+        // Xoá màn hình và vẽ khung hình mới
         glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Cập nhật và vẽ ImGui
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();

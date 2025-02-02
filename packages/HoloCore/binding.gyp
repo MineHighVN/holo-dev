@@ -3,19 +3,10 @@
         {
             "target_name": "holo_core",
             "sources": [
-                "<!@(ls -1 cpp/src/*.cpp)",
-                "<!@(ls -1 cpp/src/HPC/*.cpp)",
-                "<!@(ls -1 cpp/src/utils/*.cpp)",
-                "<!@(ls -1 cpp/src/Window/*.cpp)",
-                "<!@(ls -1 cpp/src/HoloEngine/*.cpp)",
-                "<!@(ls -1 cpp/src/exports/*.cpp)",
-                "<!@(ls -1 cpp/dependencies/include/imgui/*.cpp)",
+                "<!@(node generate_sources.js)",
             ],
             "include_dirs": [
                 "<(module_root_dir)/cpp/dependencies/include"
-            ],
-            "library_dirs": [
-                "<(module_root_dir)/cpp/dependencies/lib"
             ],
             "cflags": [
                 "-std=c++11",
@@ -23,12 +14,41 @@
             "cflags_cc": [
                 "-fexceptions",
             ],
-            "libraries": [
-                "-lglfw",
-                "-lrt",
-                "-lm",
-                "-ldl",
-                "-lGL",
+            "conditions": [
+                ['OS=="linux"', {
+                    "defines": [
+                        "LINUX",
+                    ],
+                    "cflags": [
+                        "-fPIC",
+                    ],
+                    "libraries": [
+                        "-lglfw",
+                        "-lrt",
+                        "-lm",
+                        "-ldl",
+                        "-lGL",
+                    ],
+                }
+                ],
+                ['OS=="mac"', {
+                    "defines": [
+                        "MAC",
+                    ],
+                }],
+                ['OS=="win"', {
+                    "defines": [
+                        "WIN",
+                    ],
+                    "library_dirs": [
+                        "<(module_root_dir)/cpp/dependencies/lib/windows"
+                    ],
+                    "libraries": [
+                        "-lglfw3_mt",
+                        "-lopengl32",
+                        "-lgdi32",
+                    ],
+                }],
             ],
         }
     ]
