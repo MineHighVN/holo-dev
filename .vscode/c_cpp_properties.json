@@ -4,6 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
+                "${VULKAN_SDK}/Include/**",
+                "${workspaceFolder}/packages/HoloCore/cpp/src/logger/**",
                 "C:\\Users\\MineHighVN\\AppData\\Local\\node-gyp\\Cache\\22.12.0\\include\\node\\**"
             ],
             "defines": ["_DEBUG", "UNICODE", "_UNICODE"],

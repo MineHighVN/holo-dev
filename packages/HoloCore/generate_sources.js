@@ -8,7 +8,9 @@ const folders = [
     "cpp/src/Window",
     "cpp/src/HoloEngine",
     "cpp/src/exports",
-    "cpp/dependencies/include/imgui",
+    "cpp/src/render_api",
+    "cpp/src/render_api/vulkan",
+    "cpp/src/graphics",
 ];
 
 function getCppFiles() {

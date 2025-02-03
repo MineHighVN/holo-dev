@@ -1,4 +1,5 @@
 const init = require("./src/init");
+const { holoBinaryPath } = require("./variable");
 
 /**
  * @typedef {Object} holo
@@ -18,6 +19,6 @@ const init = require("./src/init");
  */
 
 /** @type {holo} */
-const holo = require("./build/Release/holo_core.node");
+const holo = require(holoBinaryPath);
 
 module.exports = { init, holo };

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <imgui/imgui.h>
 #include "../StyleSheet/StyleSheet.h"
 #include "../Window/Window.h"
 #include <map>
@@ -35,7 +34,7 @@ private:
     std::string nodeName;
     holo_node selfSharedAddress = nullptr;
 protected:
-    void DrawLine(float x1, float y1, float x2, float y2, ImU32 col, float thickness = 1.0f);
+    void DrawLine(float x1, float y1, float x2, float y2, Color col, float thickness = 1.0f);
     void DrawText(std::string text, float x, float y);
     unsigned int NodeID;
     holo_nodes children;
@@ -43,7 +42,6 @@ protected:
     float drawPosY = 0;
 public:
     Node(std::string nodeName);
-    ~Node();
     StyleSheet style;
     virtual void render();
     std::shared_ptr<Node> parent = nullptr;

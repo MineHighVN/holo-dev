@@ -1,14 +1,11 @@
 const { spawn } = require("node:child_process");
 const fs = require("fs");
 const path = require("node:path");
-
-const LD_LIBRARY_PATH = process.env.LD_LIBRARY_PATH;
+const { holoBinaryPath } = require("../variable");
 
 const execute_command = (command, args) => {
     return new Promise((resolve, reject) => {
         const configure = spawn(command, args, {
-            stdio: "inherit",
-            env: { ...process.env, FORCE_COLOR: "1" },
             cwd: path.join(__dirname, ".."),
         });
 
@@ -20,7 +17,7 @@ const execute_command = (command, args) => {
 };
 
 const init = async () => {
-    const filePath = path.join(__dirname, "../build/Release/holo_core.node");
+    const filePath = path.join(path.join(__dirname, ".."), holoBinaryPath);
     const exists = fs.existsSync(filePath);
 
     if (!exists) {

@@ -1,13 +1,17 @@
 #include "Window.h"
 
-#include <imgui/imgui_impl_glfw.h>
-#include <imgui/imgui_impl_opengl3.h>
+#include <hLog.h>
+
+#include <chrono>
+#include <thread>
 
 #include "../HoloEngine/Body.h"
 
 #include "../HoloEngine/Node.h"
 
 #include "../HPC/HPC.h"
+
+#include "../render_api/vulkan/vulkan.h"
 
 #ifdef _WIN32
 const std::string OS_NAME = "Windows";
@@ -20,13 +24,14 @@ const std::string OS_NAME = "Unknown";
 std::unique_ptr<Window> window;
 
 bool Window::Init() {
-    std::cout <<  "Detect OS  >>> " << OS_NAME << "\n";
+    logger::verbose("OS Name: ", OS_NAME);
 
     if (!glfwInit()) {
-        std::cerr << "failed to initialize GLFW" << std::endl;
+        logger::error("failed to initialize glfw");
         return false;
     }
 
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
@@ -36,32 +41,18 @@ bool Window::Init() {
         return false;
     }
 
+    try {
+        this->renderEngine = new RenderEngine(this->window, API_VULKAN);
+    } catch (const std::runtime_error& err) {
+        logger::error(err.what());
+        return false;
+    }
+
     glfwMakeContextCurrent(this->window);
     // glfwSwapInterval(1);
 
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGui::StyleColorsDark();
-
-    ImGui_ImplGlfw_InitForOpenGL(this->window, true);
-    ImGui_ImplOpenGL3_Init("#version 130");
-
-    ImGuiIO& io = ImGui::GetIO();
-    io.IniFilename = nullptr;
-
-    io.Fonts->Clear();
-
-    ImFontConfig config;
-    config.SizePixels = 16.0f;
-    io.Fonts->AddFontDefault(&config);
-
-    ImGui_ImplOpenGL3_CreateFontsTexture();
-
     return true;
 }
-
-#include <chrono>
-#include <thread>
 
 void Window::Render() {
     const float targetFrameTime = 1.0f / 30.0f;
@@ -73,43 +64,37 @@ void Window::Render() {
         std::chrono::duration<float> deltaTime = currentTime - previousTime;
         previousTime = currentTime;
 
+        // if (deltaTime.count() < targetFrameTime) {
+        //     std::this_thread::sleep_for(std::chrono::duration<float>(targetFrameTime - deltaTime.count()));
+        // }
+        
         glfwPollEvents();
 
-        if (deltaTime.count() < targetFrameTime) {
-            std::this_thread::sleep_for(std::chrono::duration<float>(targetFrameTime - deltaTime.count()));
-        }
+        glfwGetWindowSize(this->window, &this->wWidth, &this->wHeight);
 
-        // Xoá màn hình và vẽ khung hình mới
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        if (!this->wWidth || !this->wHeight) continue;
 
-        // Cập nhật và vẽ ImGui
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-        this->draw_list = ImGui::GetForegroundDrawList();
+        this->renderEngine->startFrame();
+        this->renderEngine->clearScreen();
 
         if (body != nullptr) {
             body->render();
         }
 
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        this->renderEngine->endFrame();
 
         glfwSwapBuffers(this->window);
     }
 }
 
 void Window::Quit() {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
+    this->renderEngine->~RenderEngine();
 
     glfwDestroyWindow(this->window);
     glfwTerminate();
 
     HPC::Emit("window_action", "close");
+    delete this->vulkan;
 }
 
 void Window::setTitle(const char* title) {
@@ -118,4 +103,16 @@ void Window::setTitle(const char* title) {
 
 GLFWwindow* Window::getGLFWWindow() {
     return this->getGLFWWindow();
+}
+
+RenderEngine *Window::getRenderEngine() {
+    return this->renderEngine;
+}
+
+int Window::getWidth() {
+    return this->wWidth;
+}
+
+int Window::getHeight() {
+    return this->wHeight;
 }
