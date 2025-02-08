@@ -6,13 +6,11 @@
 #include <iostream>
 #include <hLog.h>
 
-#include "vulkan_pipeline.h"
-
 #include "../../errors/render_engine_errors.h"
 
-VkInstance VulkanContext::createInstance(const char* appName) {
-    VkInstance instance{};
+#include "vulkan_pipeline.h"
 
+VkResult VulkanContext::createInstance(const char* appName) {
     VkApplicationInfo appInfo{};
     appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
     appInfo.pApplicationName = appName;
@@ -38,42 +36,33 @@ VkInstance VulkanContext::createInstance(const char* appName) {
     createInfo.enabledLayerCount = 1;
     createInfo.ppEnabledLayerNames = validationLayers;
 
-    if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-        throw std::runtime_error("cannot create Vulkan instance");
-    }
-
-    return instance;
+    return vkCreateInstance(&createInfo, nullptr, &instance);
 }
 
-VkSurfaceKHR VulkanContext::createSurface() {
-    VkSurfaceKHR surface;
-    if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS) {
-        throw std::runtime_error("cannot create vulkan window surface");
-    }
-
-    return surface;
+VkResult VulkanContext::createSurface() {
+    return glfwCreateWindowSurface(instance, window, nullptr, &surface);
 }
 
-VkPhysicalDevice VulkanContext::pickPhysicalDevice() {
+HlResult VulkanContext::pickPhysicalDevice() {
     uint32_t deviceCount = 0;
     vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
     if (deviceCount == 0) {
-        throw ErrNoPhysicalDevice();
+        throw HL_NO_PHYSICAL_DEVICE;
     }
 
     std::vector<VkPhysicalDevice> devices(deviceCount);
     vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
     for (const auto& device : devices) {
-        return device;
+        this->physicalDevice = device;
+        return HL_SUCCESS;
     }
 
-    throw ErrNoDeviceCompatible();
+    throw HL_DEVICE_COMPATIBILITY_FAILED;
 }
 
-QueueFamilyIndices VulkanContext::findQueueFamilies() {
-    QueueFamilyIndices indices;
+HlResult VulkanContext::findQueueFamilies() {
     uint32_t queueFamilyCount = 0;
     vkGetPhysicalDeviceQueueFamilyProperties(physicalDevice, &queueFamilyCount, nullptr);
     std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
@@ -97,12 +86,12 @@ QueueFamilyIndices VulkanContext::findQueueFamilies() {
         i++;
     }
 
-    return indices;
+    if (indices.graphicsFamily == -1 || indices.presentFamily == -1) return HL_VK_QUEUE_FAMILY_NOT_FOUND;
+
+    return HL_SUCCESS;
 }
 
 VkDevice VulkanContext::createLogicalDevice() {
-    indices = this->findQueueFamilies();
-
     float queuePriority = 1.0f;
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 
@@ -361,27 +350,27 @@ void setupDebugCallback(VkInstance instance) {
     }
 }
 
-void VulkanContext::createContext(GLFWwindow* window) {
-    VkResult result;
+HlResult VulkanContext::createContext(GLFWwindow* window) {
+    HlResult result = HL_SUCCESS;
 
     this->window = window;
 
     logger::verbose("initialize vulkan instance");
-    this->instance = this->createInstance("Holo Engine - Default Application");
+    if(this->createInstance("Holo Engine - Default Application") != VK_SUCCESS) return HL_VK_INSTANCE_CREATION_FAILED;
 
     setupDebugCallback(this->instance);
 
     logger::verbose("initialize vulkan surface");
-    this->surface = this->createSurface();
+
+    if(this->createSurface() != VK_SUCCESS) return HL_VK_SURFACE_CREATION_FAILED;
 
     logger::verbose("pick physical device for vulkan");
-    this->physicalDevice = this->pickPhysicalDevice();
+    result = this->pickPhysicalDevice();
+    if (result != HL_SUCCESS) return result;
 
     logger::verbose("find vulkan queue family");
-    this->indices = this->findQueueFamilies();
-
-    if (indices.graphicsFamily == -1 || indices.presentFamily == -1)
-        throw std::runtime_error("Queue families not found!");
+    result = this->findQueueFamilies();
+    if (result != HL_SUCCESS) return result;
 
     logger::verbose("initialize vulkan logical device");
     this->device = this->createLogicalDevice();
@@ -435,16 +424,17 @@ void VulkanContext::createContext(GLFWwindow* window) {
     allocInfo.commandBufferCount = 1;
 
     logger::verbose("allocate vulkan command buffers");
-    result = vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer);
-    if (result != VK_SUCCESS) throw std::runtime_error("failed to get graphics queue");
+
+    if (vkAllocateCommandBuffers(device, &allocInfo, &commandBuffer) != VK_SUCCESS) return HL_VK_QUEUE_FAMILY_NOT_FOUND;
     
     logger::verbose("get vulkan graphics queue");
     vkGetDeviceQueue(device, this->indices.graphicsFamily, 0, &graphicsQueue);
-    if (this->graphicsQueue == VK_NULL_HANDLE) throw std::runtime_error("failed to get graphics queue");
+    if (this->graphicsQueue == VK_NULL_HANDLE) return HL_VK_QUEUE_FAMILY_NOT_FOUND;
     
     logger::verbose("get vulkan present queue");
     vkGetDeviceQueue(device, this->indices.presentFamily, 0, &presentQueue);
-    if (this->presentQueue == VK_NULL_HANDLE) throw std::runtime_error("failed to get present queue");
+    if (this->presentQueue == VK_NULL_HANDLE) return HL_VK_QUEUE_FAMILY_NOT_FOUND;
 
     this->createSyncObject();
+    return result;
 }

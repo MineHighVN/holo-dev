@@ -3,6 +3,7 @@
     {
       "target_name": "holo_core",
       "sources": [
+        "<(module_root_dir)/cpp/dependencies/src/glad.c",
         "<!@(node generate_sources.js)"
       ],
       "include_dirs": [
@@ -28,7 +29,7 @@
             "-lrt",
             "-lm",
             "-ldl",
-            "-lGL"
+            "-lGL",
           ]
         }],
         ["OS==\"mac\"", {

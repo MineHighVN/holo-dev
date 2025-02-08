@@ -13,6 +13,11 @@
 
 #include "../render_api/vulkan/vulkan.h"
 
+#include <imgui/imgui.h>
+
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
+
 #ifdef _WIN32
 const std::string OS_NAME = "Windows";
 #elif __linux__
@@ -31,7 +36,11 @@ bool Window::Init() {
         return false;
     }
 
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    render_api renderApi = API_OPENGL;
+
+    if (renderApi != API_OPENGL)
+        glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
@@ -41,15 +50,35 @@ bool Window::Init() {
         return false;
     }
 
+    glfwMakeContextCurrent(this->window);
+    // glfwSwapInterval(1);
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGui::StyleColorsDark();
+
+    ImGui_ImplGlfw_InitForOpenGL(this->window, true);
+    ImGui_ImplOpenGL3_Init("#version 130");
+
+    ImGuiIO& io = ImGui::GetIO();
+    io.IniFilename = nullptr;
+
+    io.Fonts->Clear();
+
+    ImFontConfig config;
+    config.SizePixels = 16.0f;
+    io.Fonts->AddFontDefault(&config);
+
+    ImGui_ImplOpenGL3_CreateFontsTexture();
+
     try {
-        this->renderEngine = new RenderEngine(this->window, API_VULKAN);
+        this->renderEngine = new RenderEngine(this->window, renderApi);
+        HlResult result = this->renderEngine->init();
+        if (result != HL_SUCCESS) return false;
     } catch (const std::runtime_error& err) {
         logger::error(err.what());
         return false;
     }
-
-    glfwMakeContextCurrent(this->window);
-    // glfwSwapInterval(1);
 
     return true;
 }
@@ -67,6 +96,7 @@ void Window::Render() {
         // if (deltaTime.count() < targetFrameTime) {
         //     std::this_thread::sleep_for(std::chrono::duration<float>(targetFrameTime - deltaTime.count()));
         // }
+
         
         glfwPollEvents();
 
@@ -88,13 +118,11 @@ void Window::Render() {
 }
 
 void Window::Quit() {
-    this->renderEngine->~RenderEngine();
-
+    delete this->renderEngine;
     glfwDestroyWindow(this->window);
     glfwTerminate();
 
     HPC::Emit("window_action", "close");
-    delete this->vulkan;
 }
 
 void Window::setTitle(const char* title) {
@@ -103,10 +131,6 @@ void Window::setTitle(const char* title) {
 
 GLFWwindow* Window::getGLFWWindow() {
     return this->getGLFWWindow();
-}
-
-RenderEngine *Window::getRenderEngine() {
-    return this->renderEngine;
 }
 
 int Window::getWidth() {

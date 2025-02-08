@@ -1,10 +1,11 @@
 #include "color.h"
 #include <sstream>
 
-Color COLOR_BLACK{ 0, 0, 0, 255};
-Color COLOR_WHITE{ 255, 255, 255, 255};
+Color COLOR_BLACK{ 0, 0, 0, 255 };
+Color COLOR_WHITE{ 255, 255, 255, 255 };
+Color COLOR_TRANSPARENT{ 0, 0, 0, 0 };
 
-Color ColorFromHex(unsigned int hex) {
+Color colorFromHex(unsigned int hex) {
     Color color{};
 
     color.r = (hex >> 24) & 0xFF;
@@ -15,7 +16,7 @@ Color ColorFromHex(unsigned int hex) {
     return color;
 }
 
-Color ColorFromHex(const std::string& hexStr) {
+Color colorFromHex(const std::string& hexStr) {
     std::string hex = hexStr;
     if (hex.size() == 4) {
         hex.insert(2, 1, hex[1]);
@@ -32,5 +33,15 @@ Color ColorFromHex(const std::string& hexStr) {
         ss << std::hex << hex.substr(1);
     ss >> hexValue;
 
-    return ColorFromHex(hexValue);
+    return colorFromHex(hexValue);
+}
+
+ColorNormalize Color::normalization() {
+    ColorNormalize normalizedColor;
+    normalizedColor.r = static_cast<float>(r) / 255.0f;
+    normalizedColor.g = static_cast<float>(g) / 255.0f;
+    normalizedColor.b = static_cast<float>(b) / 255.0f;
+    normalizedColor.a = static_cast<float>(a) / 255.0f;
+
+    return normalizedColor;
 }

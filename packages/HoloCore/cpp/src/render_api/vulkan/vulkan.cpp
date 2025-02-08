@@ -4,12 +4,13 @@
 
 #include <iostream>
 
-void Vulkan::init(GLFWwindow* window) {
+HlResult Vulkan::init(GLFWwindow* window) {
     logger::verbose("setup vulkan render");
     logger::verbose("initialize vkDevice");
     this->window = window;
     this->context = new VulkanContext();
     this->context->createContext(window);
+    return HL_SUCCESS;
 }
 
 void Vulkan::destroy() {
@@ -141,10 +142,6 @@ void Vulkan::endFrame() {
     presentInfo.pWaitSemaphores = signalSemaphores;
 
     vkQueuePresentKHR(this->context->presentQueue, &presentInfo);
-}
-
-void Vulkan::drawRectangle(int x, int y, int width, int height, Color color, float rounded) {
-    
 }
 
 Vulkan::~Vulkan() {

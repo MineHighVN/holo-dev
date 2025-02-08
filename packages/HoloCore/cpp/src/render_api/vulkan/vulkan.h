@@ -12,8 +12,7 @@ private:
     uint32_t imageIndex;
     
 public:
-    void init(GLFWwindow* window) override;
-    void drawRectangle(int x, int y, int width, int height, Color color = COLOR_BLACK, float rounded = 0.0f) override;
+    HlResult init(GLFWwindow* window) override;
     void startFrame() override;
     void endFrame() override;
     void destroy() override;

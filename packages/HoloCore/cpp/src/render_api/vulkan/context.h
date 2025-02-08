@@ -5,6 +5,8 @@
 #include <GLFW/glfw3.h>
 #include <vector>
 
+#include "../../types/HlResult.h"
+
 struct QueueFamilyIndices {
     int graphicsFamily = -1;
     int presentFamily = -1;
@@ -14,10 +16,10 @@ class VulkanContext {
 private:
     GLFWwindow* window;
 
-    VkInstance createInstance(const char* appName);
-    VkSurfaceKHR createSurface();
-    VkPhysicalDevice pickPhysicalDevice();
-    QueueFamilyIndices findQueueFamilies();
+    VkResult createInstance(const char* appName);
+    VkResult createSurface();
+    HlResult pickPhysicalDevice();
+    HlResult findQueueFamilies();
     VkDevice createLogicalDevice();
     VkSwapchainKHR createSwapchain(VkExtent2D extent, uint32_t imageCount);
     VkRenderPass createRenderPass(VkFormat swapChainImageFormat);
@@ -48,6 +50,6 @@ public:
     VkFence inFlightFence;
 
     VkExtent2D getSwapChainExtent();
-    void createContext(GLFWwindow* window);
+    HlResult createContext(GLFWwindow* window);
     void recreateSwapchain();
 };
